@@ -11,16 +11,24 @@ function OTPVerification() {
   const [resendDisabled, setResendDisabled] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const navigate = useNavigate();
-  useAuth();
+  const { user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-
+  
     try {
       await verifyOTP(otp);
-      navigate("/organizer/home");
+      
+      console.log("User in OTP verification:", user); // Debug user object
+      
+      // Check user role and redirect accordingly
+      if (user && user.role === "player") {
+        navigate("/"); // Redirect players to landing page
+      } else {
+        navigate("/organizer/home"); // Default redirect for organizers
+      }
     } catch (err) {
       setError(
         err.response?.data?.message || "Verification failed. Please try again."

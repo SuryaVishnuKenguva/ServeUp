@@ -14,7 +14,7 @@ const generateToken = (id) => {
 // @access  Public
 exports.register = async (req, res) => {
   try {
-    const { name, email, phone, password } = req.body;
+    const { name, email, phone, password, role } = req.body;
 
     // Check if user already exists
     const userExists = await User.findOne({ email });
@@ -30,7 +30,8 @@ exports.register = async (req, res) => {
       name,
       email,
       phone,
-      password
+      password,
+      role: role || 'organizer' // Use provided role or default to organizer
     });
 
     // Generate OTP
@@ -114,6 +115,7 @@ exports.verifyOTP = async (req, res) => {
         email: user.email,
         phone: user.phone,
         isEmailVerified: user.isEmailVerified
+        // role: user.role  // Add this line to include the role
       }
     });
   } catch (error) {
@@ -223,7 +225,8 @@ exports.login = async (req, res) => {
         name: user.name,
         email: user.email,
         phone: user.phone,
-        isEmailVerified: user.isEmailVerified
+        isEmailVerified: user.isEmailVerified,
+        role: user.role
       }
     });
   } catch (error) {

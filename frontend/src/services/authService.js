@@ -19,8 +19,8 @@ export const resendOTP = async () => {
   return response.data;
 };
 
-export const login = async (email, password) => {
-  const response = await api.post('/auth/login', { email, password });
+export const login = async (email, password, role) => {
+  const response = await api.post('/auth/login', { email, password, role });
   if (response.data.token) {
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('user', JSON.stringify(response.data.user));
