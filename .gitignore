@@ -35,3 +35,4 @@ backend/.env
 
 # Optional: Mac OS files
 *.DS_Store
+.env
